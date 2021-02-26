@@ -26,12 +26,27 @@ app.route('/login')
     .get(function(req, res) {  var output = 'getting the login! ';
       var input1 = req.query['input1'];
       var input2 = req.query['input2'];
-                             
+
       if (typeof input1 != 'undefined' && typeof input2 != 'undefined') {
-        output+=('There was input: ' + input1 + ' and ' + input2);   
-        
-    res.send('this is the login form');
-  })
+        output+=('There was input: ' + input1 + ' and ' + input2);
+        res.send(output);
+    console.log('this is the login form');
+  }
+
+  MongoClient.connect(uri, function (err, db) {
+              if(err) throw err;
+              //Write databse Insert/Update/Query code here..
+              console.log('Start the database stuff');
+              var dbo = db.db("mydb");
+              var myobj = { firstInput: input1, secondInput: input2 };
+              dbo.collection("users").insertOne(myobj, function(err, res) {
+                if (err) throw err;
+                console.log("1 user inserted");
+                db.close();
+              });
+              console.log('End the database stuff');
+       });
+)
 
 
   // process the form (POST http://localhost:PORT/login)
@@ -47,20 +62,6 @@ app.get('/', function(req, res) {
 });
 
 
-
-MongoClient.connect(uri, function (err, db) {
-            if(err) throw err;
-            //Write databse Insert/Update/Query code here..
-            console.log('Start the database stuff');
-            var dbo = db.db("mydb");
-            var myobj = { firstInput: input1, secondInput: input2 };
-            dbo.collection("users").insertOne(myobj, function(err, res) {
-              if (err) throw err;
-              console.log("1 user inserted");
-              db.close();
-            });
-            console.log('End the database stuff');
-     });
 
 ///////////////////////////////////////////////////////////////////
 // create routes for the admin section
@@ -90,8 +91,8 @@ adminRouter.param('name', function(req, res, next, name) {   // do validation 
 });
 
 
-// route with parameters (http://localhost:PORT/admin/users/:name) 
-adminRouter.get('/users/:name', function(req, res) {   res.send('hello ' + req.params.name + '!');  });  
+// route with parameters (http://localhost:PORT/admin/users/:name)
+adminRouter.get('/users/:name', function(req, res) {   res.send('hello ' + req.params.name + '!');  }); 
 
 // posts page (http://localhost:PORT/admin/posts) 
 adminRouter.get('/posts', function(req, res) {
@@ -99,7 +100,7 @@ adminRouter.get('/posts', function(req, res) {
 
 
 // apply the routes to our application
-app.use('/admin', adminRouter); 
+app.use('/admin', adminRouter);
 ///////////////////////////////////////////////////////////////////
 
 
