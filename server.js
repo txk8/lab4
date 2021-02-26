@@ -46,13 +46,13 @@ app.route('/login')
               });
               console.log('End the database stuff');
        });
-//)
+})
 
 
   // process the form (POST http://localhost:PORT/login)
-//  .post(function(req, res) { console.log('processing');
-  //  res.send('processing the login form!');
-//  });
+  .post(function(req, res) { console.log('processing');
+    res.send('processing the login form!');
+  });
 
 
 
@@ -102,7 +102,7 @@ adminRouter.get('/posts', function(req, res) {
 // apply the routes to our application
 app.use('/admin', adminRouter);
 ///////////////////////////////////////////////////////////////////
-});
+//});
 
 // start the server
 app.listen(PORT);
