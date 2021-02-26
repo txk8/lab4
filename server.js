@@ -5,6 +5,21 @@ var app     = express();
 const PORT = process.env.PORT || 8080;
 // set the port based on environment (more on environments later)
 var port    = PORT;
+const PASS = process.env.DBPASS
+var mdbpass = PASS
+
+//database setup
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://user:<password>@cluster0.1celq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+
 
 app.route('/login')
   // show the form (GET http://localhost:PORT/login)
@@ -20,6 +35,21 @@ app.route('/login')
 app.get('/', function(req, res) {
      res.sendFile(__dirname + '/myWebPage.html');
 });
+
+
+MongoClient.connect(uri, function (err, db) {
+            if(err) throw err;
+            //Write databse Insert/Update/Query code here..
+            console.log('Start the database stuff');
+            var dbo = db.db("mydb");
+            var myobj = { firstInput: input1, secondInput: input2 };
+            dbo.collection("users").insertOne(myobj, function(err, res) {
+              if (err) throw err;
+              console.log("1 user inserted");
+              db.close();
+            });
+            console.log('End the database stuff');
+     });
 
 ///////////////////////////////////////////////////////////////////
 // create routes for the admin section
