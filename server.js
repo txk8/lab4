@@ -102,7 +102,7 @@ adminRouter.get('/posts', function(req, res) {
 // apply the routes to our application
 app.use('/admin', adminRouter);
 ///////////////////////////////////////////////////////////////////
-
+});
 
 // start the server
 app.listen(PORT);
