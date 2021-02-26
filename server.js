@@ -46,7 +46,7 @@ app.route('/login')
               });
               console.log('End the database stuff');
        });
-)
+//)
 
 
   // process the form (POST http://localhost:PORT/login)
