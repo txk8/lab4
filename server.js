@@ -50,9 +50,9 @@ app.route('/login')
 
 
   // process the form (POST http://localhost:PORT/login)
-    .post(function(req, res) { console.log('processing');
-    res.send('processing the login form!');
-  });
+//  .post(function(req, res) { console.log('processing');
+  //  res.send('processing the login form!');
+//  });
 
 
 
